@@ -104,7 +104,7 @@ class Database
      *
      * @return array|float time elapsed, memory usage.
      */
-    public static function benchmark()
+    public static function benchmark(): array
     {
         return [
             'start'  => self::$_ts,

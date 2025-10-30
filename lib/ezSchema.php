@@ -98,7 +98,7 @@ class ezSchema
      * @return string
      * @throws \Exception
      */
-    public function __call($type, $args)
+    public function __call(string $type, array $args)
     {
         $vendor = self::vendor();
         if (empty($vendor))
@@ -166,7 +166,7 @@ class ezSchema
     public static function vendor(?DatabaseInterface $db = null)
     {
         $type = null;
-        $instance = empty($db) || !is_object($db) ? getInstance() : $db;
+        $instance = !$db instanceof \ezsql\DatabaseInterface || !is_object($db) ? getInstance() : $db;
         if ($instance instanceof DatabaseInterface) {
             $type = $instance->settings()->getDriver();
             if ($type === \Pdo) {

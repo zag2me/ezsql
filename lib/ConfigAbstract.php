@@ -166,7 +166,7 @@ abstract class ConfigAbstract
      *
      * @return mixed
      */
-    public function __call($function, $args)
+    public function __call(string $function, array $args)
     {
         $prefix = \substr($function, 0, 3);
         $property = \strtolower(substr($function, 3, \strlen($function)));

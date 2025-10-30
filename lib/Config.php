@@ -31,12 +31,12 @@ class Config extends ConfigAbstract implements ConfigInterface
         }
     }
 
-    public static function initialize(string $driver = '',  ?array $arguments = null)
+    public static function initialize(string $driver = '',  ?array $arguments = null): self
     {
         return new self($driver, $arguments);
     }
 
-    private function setupMysqli($args)
+    private function setupMysqli(array $args): void
     {
         if (!\function_exists('mysqli_connect'))
             throw new Exception('<b>Fatal Error:</b> ez_mysql requires mySQLi Lib to be compiled and or linked in to the PHP engine');
@@ -53,7 +53,7 @@ class Config extends ConfigAbstract implements ConfigInterface
             throw new Exception(\MISSING_CONFIGURATION);
     }
 
-    private function setupPdo($args)
+    private function setupPdo(array $args): void
     {
         if (!\class_exists('PDO'))
             throw new Exception('<b>Fatal Error:</b> ez_pdo requires PDO Lib to be compiled and or linked in to the PHP engine');
@@ -67,7 +67,7 @@ class Config extends ConfigAbstract implements ConfigInterface
             throw new Exception(\MISSING_CONFIGURATION);
     }
 
-    private function setupSqlsrv($args)
+    private function setupSqlsrv(array $args): void
     {
         if (!\function_exists('sqlsrv_connect'))
             throw new Exception('<b>Fatal Error:</b> ez_sqlsrv requires the php_sqlsrv.dll or php_pdo_sqlsrv.dll to be installed. Also enable MS-SQL extension in PHP.ini file ');
@@ -82,7 +82,7 @@ class Config extends ConfigAbstract implements ConfigInterface
             throw new Exception(\MISSING_CONFIGURATION);
     }
 
-    private function setupPgsql($args)
+    private function setupPgsql(array $args): void
     {
         if (!\function_exists('pg_connect'))
             throw new Exception('<b>Fatal Error:</b> ez_pgsql requires PostgreSQL Lib to be compiled and or linked in to the PHP engine');
@@ -97,7 +97,7 @@ class Config extends ConfigAbstract implements ConfigInterface
             throw new Exception(\MISSING_CONFIGURATION);
     }
 
-    private function setupSqlite3($args)
+    private function setupSqlite3(array $args): void
     {
         if (!\class_exists('SQLite3'))
             throw new Exception('<b>Fatal Error:</b> ez_sqlite3 requires SQLite3 Lib to be compiled and or linked in to the PHP engine');

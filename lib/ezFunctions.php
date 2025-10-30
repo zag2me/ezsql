@@ -68,7 +68,7 @@ if (!\function_exists('ezFunctions')) {
      * @param string $instanceTag - Store the instance for later use
      * @return \ezsql\Database\ez_pdo|\ezsql\Database\ez_pgsql|\ezsql\Database\ez_sqlsrv|\ezsql\Database\ez_sqlite3|\ezsql\Database\ez_mysqli
      */
-    function database(?string $sqlDriver = null, ?array $connectionSetting = null, ?string $instanceTag = null)
+    function database(?string $sqlDriver = null, ?array $connectionSetting = null, ?string $instanceTag = null): \ezsql\ezQueryInterface
     {
         return Database::initialize($sqlDriver, $connectionSetting, $instanceTag);
     }
@@ -1391,7 +1391,7 @@ if (!\function_exists('ezFunctions')) {
     /**
      * @codeCoverageIgnore
      */
-    function ezFunctions()
+    function ezFunctions(): bool
     {
         return true;
     }

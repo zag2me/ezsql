@@ -67,7 +67,7 @@ class ezQuery implements ezQueryInterface
      *
      * @return int array count
      */
-    protected function addPrepare($value = null)
+    protected function addPrepare($value = null): int
     {
         return \array_push($this->preparedValues, $value);
     }
@@ -77,18 +77,18 @@ class ezQuery implements ezQueryInterface
      *
      * @return bool false
      */
-    protected function clearPrepare()
+    protected function clearPrepare(): bool
     {
         $this->preparedValues = [];
         return false;
     }
 
-    public function prepareOn()
+    public function prepareOn(): void
     {
         $this->prepareActive = true;
     }
 
-    public function prepareOff()
+    public function prepareOff(): void
     {
         $this->prepareActive = $this->clearPrepare();
     }
@@ -98,7 +98,7 @@ class ezQuery implements ezQueryInterface
      *
      * @return string
      */
-    public static function to_string($arrays, $separation = ',')
+    public static function to_string($arrays, string $separation = ',')
     {
         if (\is_array($arrays)) {
             $columns = '';
@@ -288,7 +288,7 @@ class ezQuery implements ezQueryInterface
         return 'LIMIT ' . $rows . $value;
     }
 
-    private function conditions($key, $condition, $value, $combine, $extra)
+    private function conditions($key, $condition, $value, $combine, $extra): void
     {
         $groupStart = (!empty($extra) && $extra === '(') ? $extra : '';
         $groupEnd = (!empty($extra) && $extra === ')') ? $extra : '';
@@ -300,7 +300,7 @@ class ezQuery implements ezQueryInterface
             $this->whereSQL .= "$groupStart $key $condition '" . $this->escape($value) . "' $groupEnd $combine ";
     }
 
-    private function conditionBetween($key, $condition, $valueOne, $valueTwo, $combine)
+    private function conditionBetween($key, string $condition, $valueOne, $valueTwo, $combine): void
     {
         $_valueTwo = $this->escape($valueTwo);
         $andCombineWith = \_AND;
@@ -317,7 +317,7 @@ class ezQuery implements ezQueryInterface
         $this->combineWith = $andCombineWith;
     }
 
-    private function conditionIn($key, $condition, $valueRow, $combine)
+    private function conditionIn($key, $condition, $valueRow, $combine): void
     {
         $value = '';
         foreach ($valueRow as $splitValue) {
@@ -331,13 +331,16 @@ class ezQuery implements ezQueryInterface
         $this->whereSQL .= "$key $condition ( " . \rtrim($value, ', ') . " ) $combine ";
     }
 
-    private function conditionIs($key, $condition, $combine)
+    private function conditionIs($key, $condition, $combine): void
     {
         $isCondition = (($condition == 'IS') || ($condition == 'IS NOT')) ? $condition : 'IS';
         $this->whereSQL .= "$key $isCondition NULL $combine ";
     }
 
-    private function flattenWhereConditions($whereConditions)
+    /**
+     * @return mixed[]
+     */
+    private function flattenWhereConditions($whereConditions): array
     {
         $whereConditionsReturn = [];
         foreach ($whereConditions as $whereCondition) {
@@ -350,7 +353,10 @@ class ezQuery implements ezQueryInterface
         return $whereConditionsReturn;
     }
 
-    private function retrieveConditions($whereConditions)
+    /**
+     * @return mixed[][]
+     */
+    private function retrieveConditions(array $whereConditions): array
     {
         $whereConditions = $this->flattenWhereConditions($whereConditions);
         $whereKey = [];
@@ -560,18 +566,18 @@ class ezQuery implements ezQueryInterface
      * Get SQL statement string from `select` method instead of executing get_result
      * @return string
      */
-    private function select_sql($table = '', $columnFields = '*', ...$conditions)
+    private function select_sql(?string $table = '', $columnFields = '*', ...$conditions)
     {
         $this->select_result = false;
         return $this->select($table, $columnFields, ...$conditions);
     }
 
-    public function union(?string $table = null, $columnFields = '*', ...$conditions)
+    public function union(?string $table = null, $columnFields = '*', ...$conditions): string
     {
         return 'UNION ' . $this->select_sql($table, $columnFields, ...$conditions);
     }
 
-    public function unionAll(?string $table = null, $columnFields = '*', ...$conditions)
+    public function unionAll(?string $table = null, $columnFields = '*', ...$conditions): string
     {
         return 'UNION ALL ' . $this->select_sql($table, $columnFields, ...$conditions);
     }
@@ -669,7 +675,7 @@ class ezQuery implements ezQueryInterface
      * Helper does the actual insert or replace query with an array
      * @return mixed bool/results - false for error
      */
-    private function _query_insert_replace($table = '', $keyValue = null, $type = '', $execute = true)
+    private function _query_insert_replace(?string $table = '', $keyValue = null, string $type = '', bool $execute = true)
     {
         if ((!\is_array($keyValue) && ($execute)) || empty($table)) {
             return $this->clearPrepare();
@@ -750,7 +756,7 @@ class ezQuery implements ezQueryInterface
     }
 
     // get_results call template
-    public function get_results(string $query = null, $output = \OBJECT, bool $use_prepare = false)
+    public function get_results(string $query = null, $output = \OBJECT, bool $use_prepare = false): array
     {
         return [];
     }
@@ -764,13 +770,13 @@ class ezQuery implements ezQueryInterface
      * @param bool $use_prepare
      * @return bool|mixed
      */
-    public function query(string $query, bool $use_prepare = false)
+    public function query(string $query, bool $use_prepare = false): bool
     {
         return false;
     }
 
     // escape call template if not available by vendor
-    public function escape(string $str)
+    public function escape(string $str): string
     {
         if (empty($str))
             return '';

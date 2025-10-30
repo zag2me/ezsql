@@ -26,7 +26,7 @@ class DInjector implements ContainerInterface
 	 * @param string $abstract - className
 	 * @param string $concrete - friendlyName
 	 */
-	public function set($abstract, $concrete = NULL)
+	public function set($abstract, $concrete = NULL): void
 	{
 		if ($concrete === NULL) {
 			$concrete = $abstract;
@@ -123,7 +123,7 @@ class DInjector implements ContainerInterface
 	 * @return array
 	 * @throws ContainerException
 	 */
-	protected function getDependencies($parameters, $values = null)
+	protected function getDependencies($parameters, $values = null): array
 	{
 		$dependencies = [];
 		if (\is_array($parameters)) {

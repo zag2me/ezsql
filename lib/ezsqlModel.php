@@ -399,7 +399,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 	 * @return mixed
 	 * @throws \Exception
 	 */
-	public function __call($function, $args)
+	public function __call(string $function, array $args)
 	{
 		$prefix = \substr($function, 0, 3);
 		$property = \lcfirst(\substr($function, 3, \strlen($function)));
@@ -416,7 +416,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		}
 	}
 
-	public function get_host_port(string $host, bool $default = false)
+	public function get_host_port(string $host, bool $default = false): array
 	{
 		$port = $default;
 		if (false !== \strpos($host, ':')) {
@@ -426,7 +426,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		return [$host, $port];
 	}
 
-	public function register_error(string $err_str, bool $displayError = true)
+	public function register_error(string $err_str, bool $displayError = true): bool
 	{
 		// Keep track of last error
 		$this->lastError = $err_str;
@@ -443,12 +443,12 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		return false;
 	}
 
-	public function show_errors()
+	public function show_errors(): void
 	{
 		$this->showErrors = true;
 	}
 
-	public function hide_errors()
+	public function hide_errors(): void
 	{
 		$this->showErrors = false;
 	}
@@ -456,7 +456,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 	/**
 	 * Turn on echoing of debug info, for `debug()`
 	 */
-	public function debugOn()
+	public function debugOn(): void
 	{
 		$this->debugEchoIsOn = true;
 	}
@@ -464,12 +464,12 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 	/**
 	 * Turn off echoing of debug info, the default, for `debug()`
 	 */
-	public function debugOff()
+	public function debugOff(): void
 	{
 		$this->debugEchoIsOn = false;
 	}
 
-	public function flush()
+	public function flush(): void
 	{
 		// Get rid of these
 		$this->lastResult = null;
@@ -480,7 +480,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		$this->clearPrepare();
 	}
 
-	public function log_query(string $query)
+	public function log_query(string $query): void
 	{
 		// Log how the last function was called
 		$this->funcCall = $query;
@@ -533,7 +533,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		}
 	}
 
-	public function get_col(?string $query = null, int $x = 0, bool $use_prepare = false)
+	public function get_col(?string $query = null, int $x = 0, bool $use_prepare = false): array
 	{
 		$new_array = [];
 
@@ -601,7 +601,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		}
 	}
 
-	public function create_cache(?string $path = null)
+	public function create_cache(?string $path = null): void
 	{
 		$cache_dir = empty($path) ? $this->cacheDir : $path;
 		if (!\is_dir($cache_dir)) {
@@ -811,23 +811,23 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		return $html;
 	}
 
-	public function timer_get_cur()
+	public function timer_get_cur(): float
 	{
 		[$usec, $sec] = \explode(" ", \microtime());
 		return ((float) $usec + (float) $sec);
 	}
 
-	public function timer_start($timer_name)
+	public function timer_start($timer_name): void
 	{
 		$this->timers[$timer_name] = $this->timer_get_cur();
 	}
 
-	public function timer_elapsed($timer_name)
+	public function timer_elapsed($timer_name): float
 	{
 		return \round($this->timer_get_cur() - $this->timers[$timer_name], 2);
 	}
 
-	public function timer_update_global($timer_name)
+	public function timer_update_global($timer_name): void
 	{
 		if ($this->doProfile) {
 			$this->profileTimes[] = [
@@ -853,7 +853,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		string $cert = 'certificate.crt',
 		string $ca = 'cacert.pem',
 		string $path = '.' . \_DS
-	) {
+	): void {
 		if (!\file_exists($path . $cert) || !\file_exists($path . $key)) {
 			$vendor = get_vendor();
 			if (($vendor != \SQLITE) || ($vendor != \MSSQL))
@@ -870,7 +870,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		$this->sslPath = $path;
 	}
 
-	public function secureReset()
+	public function secureReset(): void
 	{
 		$this->isSecure = false;
 		$this->sslKey = null;
@@ -895,7 +895,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		return $this->lastResult;
 	}
 
-	public function tableSetup(string $name = '', string $prefix = '')
+	public function tableSetup(string $name = '', string $prefix = ''): void
 	{
 		$this->table = $name;
 		$this->prefix = $prefix;
