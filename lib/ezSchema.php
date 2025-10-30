@@ -172,13 +172,13 @@ class ezSchema
             if ($type === \Pdo) {
                 $type = null;
                 $dbh = $instance->handle();
-                if (\strpos($dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'mysql') !== false)
+                if (str_contains((string) $dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'mysql'))
                     $type = \MYSQL;
-                elseif (\strpos($dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'pgsql') !== false)
+                elseif (str_contains((string) $dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'pgsql'))
                     $type = \POSTGRESQL;
-                elseif (\strpos($dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'sqlite') !== false)
+                elseif (str_contains((string) $dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'sqlite'))
                     $type = \SQLITE3;
-                elseif (\strpos($dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'sqlsrv') !== false)
+                elseif (str_contains((string) $dbh->getAttribute(\PDO::ATTR_CLIENT_VERSION), 'sqlsrv'))
                     $type = \SQLSERVER;
             }
         }

@@ -404,7 +404,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		$prefix = \substr($function, 0, 3);
 		$property = \lcfirst(\substr($function, 3, \strlen($function)));
 		// Todo: make properties PSR-1, add following for backward compatibility
-		if (\strpos($property, '_') !== false)
+		if (str_contains($property, '_'))
 			$property = \str_replace('_', '', $property);
 
 		if (($prefix == 'set') && \property_exists($this, $property)) {
@@ -419,7 +419,7 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 	public function get_host_port(string $host, bool $default = false): array
 	{
 		$port = $default;
-		if (false !== \strpos($host, ':')) {
+		if (str_contains($host, ':')) {
 			[$host, $port] = \explode(':', $host);
 			$port = (int) $port;
 		}
@@ -553,7 +553,8 @@ class ezsqlModel extends ezQuery implements ezsqlModelInterface
 		return $new_array;
 	}
 
-	public function get_results(?string $query = null, $output = \OBJECT, bool $use_prepare = false)
+	#[\Override]
+    public function get_results(?string $query = null, $output = \OBJECT, bool $use_prepare = false)
 	{
 		// Log how the function was called
 		$this->log_query("\$db->get_results(\"$query\", $output, $use_prepare)");

@@ -84,23 +84,14 @@ class ezResultset implements \Iterator
         }
 
         if ($this->valid()) {
-            switch ($mode) {
-                case self::RESULT_AS_OBJECT:
-                    // The result is a standard row of stdClass
-                    $return_val = $this->_resultset[$this->_position];
-                    break;
-                case self::RESULT_AS_ARRAY:
-                    $return_val = \get_object_vars($this->_resultset[$this->_position]);
-                    break;
-                case self::RESULT_AS_ROW:
-                    $return_val = \array_values(\get_object_vars($this->_resultset[$this->_position]));
-                    break;
-                case self::RESULT_AS_JSON:
-                    $return_val = \json_encode($this->_resultset[$this->_position]);
-                    break;
-                default:
-                    throw new \Error("Invalid result fetch type");
-            }
+            $return_val = match ($mode) {
+                // The result is a standard row of stdClass
+                self::RESULT_AS_OBJECT => $this->_resultset[$this->_position],
+                self::RESULT_AS_ARRAY => \get_object_vars($this->_resultset[$this->_position]),
+                self::RESULT_AS_ROW => \array_values(\get_object_vars($this->_resultset[$this->_position])),
+                self::RESULT_AS_JSON => \json_encode($this->_resultset[$this->_position]),
+                default => throw new \Error("Invalid result fetch type"),
+            };
         } else {
             $result = false;
         }

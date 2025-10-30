@@ -550,7 +550,7 @@ if (!\function_exists('ezFunctions')) {
         ];
 
         $string = \preg_replace($patterns, '', $string);
-        $string = \trim($string);
+        $string = \trim((string) $string);
         $string = \stripslashes($string);
 
         return \htmlentities($string);
@@ -565,7 +565,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function is_traversal(string $basePath, string $filename): bool
     {
-        if (\strpos(\urldecode($filename), '..') !== false)
+        if (str_contains(\urldecode($filename), '..'))
             return true;
 
         $realBase = \rtrim(\realpath($basePath), _DS);
@@ -575,7 +575,7 @@ if (!\function_exists('ezFunctions')) {
         if ($realUserPath === false)
             $realUserPath = $filename;
 
-        return (\strpos($realUserPath, $realBase) !== 0);
+        return (!str_starts_with($realUserPath, $realBase));
     }
 
     /**
@@ -591,9 +591,9 @@ if (!\function_exists('ezFunctions')) {
     function sanitize_path(string $path): string
     {
         $file = \preg_replace("/\.[\.]+/", "", $path);
-        $file = \preg_replace("/^[\/]+/", "", $file);
-        $file = \preg_replace("/^[A-Za-z][:\|][\/]?/", "", $file);
-        $file = \trim($file, '.-_');
+        $file = \preg_replace("/^[\/]+/", "", (string) $file);
+        $file = \preg_replace("/^[A-Za-z][:\|][\/]?/", "", (string) $file);
+        $file = \trim((string) $file, '.-_');
         return ($file);
     }
 
