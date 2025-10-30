@@ -147,7 +147,7 @@ class ez_mysqli extends ezsqlModel implements DatabaseInterface
 
             if ($charset != '') {
                 $encoding = \strtolower(\str_replace('-', '', $charset));
-                $charsetArray = array();
+                $charsetArray = [];
                 $recordSet = \mysqli_query($this->dbh, 'SHOW CHARACTER SET');
                 while ($row = \mysqli_fetch_array($recordSet, \MYSQLI_ASSOC)) {
                     $charsetArray[] = $row['Charset'];
@@ -207,9 +207,9 @@ class ez_mysqli extends ezsqlModel implements DatabaseInterface
     {
         if ($stmt instanceof \mysqli_stmt) {
             $stmt->store_result();
-            $variables = array();
+            $variables = [];
             $is_insert = false;
-            $col_info = array();
+            $col_info = [];
             if (\preg_match("/^(insert|delete|update|replace)\s+/i", $query)) {
                 $this->_affectedRows = \mysqli_stmt_affected_rows($stmt);
 
@@ -295,7 +295,7 @@ class ez_mysqli extends ezsqlModel implements DatabaseInterface
                 $params[] = &$arg;
                 if (\is_float($arg))
                     $string .= 'd';
-                elseif (\is_integer($arg))
+                elseif (is_int($arg))
                     $string .= 'i';
                 elseif (\is_string($arg))
                     $string .= 's';

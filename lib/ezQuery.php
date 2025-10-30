@@ -10,7 +10,7 @@ class ezQuery implements ezQueryInterface
 {
     protected $select_result = true;
     protected $prepareActive = false;
-    protected $preparedValues = array();
+    protected $preparedValues = [];
 
     /**
      * ID generated from the AUTO_INCREMENT of the previous INSERT operation (if any)
@@ -79,7 +79,7 @@ class ezQuery implements ezQueryInterface
      */
     protected function clearPrepare()
     {
-        $this->preparedValues = array();
+        $this->preparedValues = [];
         return false;
     }
 
@@ -117,7 +117,7 @@ class ezQuery implements ezQueryInterface
             return false;
         }
 
-        $columns = $this->to_string($column);
+        $columns = static::to_string($column);
 
         return 'GROUP BY ' . $columns;
     }
@@ -268,9 +268,9 @@ class ezQuery implements ezQueryInterface
             return false;
         }
 
-        $columns = $this->to_string($column);
+        $columns = static::to_string($column);
         $by = \strtoupper($order);
-        $order = (\in_array($by, array('ASC', 'DESC'))) ? $by : 'ASC';
+        $order = (\in_array($by, ['ASC', 'DESC'])) ? $by : 'ASC';
 
         return 'ORDER BY ' . $columns . ' ' . $order;
     }
@@ -359,7 +359,7 @@ class ezQuery implements ezQueryInterface
         $extra = [];
         $combiner = [];
         foreach ($whereConditions as $checkFields) {
-            $operator[] = (isset($checkFields[1])) ? $checkFields[1] : '';
+            $operator[] = $checkFields[1] ?? '';
             if (empty($checkFields[1])) {
                 $this->clearPrepare();
                 return [[], [], [], [], []];
@@ -373,9 +373,9 @@ class ezQuery implements ezQueryInterface
             } else {
                 if (!empty($checkFields[0])) {
                     $whereKey[] = $checkFields[0];
-                    $whereValue[] = (isset($checkFields[2])) ? $checkFields[2] : '';
-                    $combiner[] = (isset($checkFields[3])) ? $checkFields[3] : \_AND;
-                    $extra[] = (isset($checkFields[4])) ? $checkFields[4] : null;
+                    $whereValue[] = $checkFields[2] ?? '';
+                    $combiner[] = $checkFields[3] ?? \_AND;
+                    $extra[] = $checkFields[4] ?? null;
                 }
             }
         }
@@ -436,7 +436,7 @@ class ezQuery implements ezQueryInterface
         if (\is_string($conditions[0]) && \strpos($conditions[0],  $whereOrHaving) !== false)
             return $conditions[0];
 
-        list($operator, $whereKeys, $whereValues, $combiner, $extra) = $this->retrieveConditions($conditions);
+        [$operator, $whereKeys, $whereValues, $combiner, $extra] = $this->retrieveConditions($conditions);
         if (empty($operator))
             return false;
 
@@ -485,7 +485,7 @@ class ezQuery implements ezQueryInterface
             return $this->clearPrepare();
         }
 
-        $columns = $this->to_string($columnFields);
+        $columns = static::to_string($columnFields);
 
         if (isset($getFromTable) && !$getIsInto)
             $sql = "CREATE TABLE $table AS SELECT $columns FROM " . $getFromTable;
@@ -613,7 +613,7 @@ class ezQuery implements ezQueryInterface
         return $this->clearPrepare();
     }
 
-    public function update(string $table = null, $keyValue, ...$whereConditions)
+    public function update(string $table = null, $keyValue = null, ...$whereConditions)
     {
         if (!\is_array($keyValue) || empty($table)) {
             return $this->clearPrepare();
@@ -624,7 +624,7 @@ class ezQuery implements ezQueryInterface
         foreach ($keyValue as $key => $val) {
             if (is_null($val) || \strtolower($val) == 'null') {
                 $sql .= "$key = NULL, ";
-            } elseif (\in_array(\strtolower($val), array('current_timestamp()', 'date()', 'now()'))) {
+            } elseif (\in_array(\strtolower($val), ['current_timestamp()', 'date()', 'now()'])) {
                 $sql .= "$key = CURRENT_TIMESTAMP(), ";
             } else {
                 if ($this->isPrepareOn()) {
@@ -675,7 +675,7 @@ class ezQuery implements ezQueryInterface
             return $this->clearPrepare();
         }
 
-        if (!\in_array(strtoupper($type), array('REPLACE', 'INSERT'))) {
+        if (!\in_array(strtoupper($type), ['REPLACE', 'INSERT'])) {
             return $this->clearPrepare();
         }
 
@@ -688,7 +688,7 @@ class ezQuery implements ezQueryInterface
                 $index .= "$key, ";
                 if (\strtolower($val) == 'null')
                     $value .= "NULL, ";
-                elseif (\in_array(\strtolower($val), array('current_timestamp()', 'date()', 'now()')))
+                elseif (\in_array(\strtolower($val), ['current_timestamp()', 'date()', 'now()']))
                     $value .= "CURRENT_TIMESTAMP(), ";
                 else {
                     if ($this->isPrepareOn()) {
@@ -726,12 +726,12 @@ class ezQuery implements ezQueryInterface
         }
     }
 
-    public function replace(string $table = null, $keyValue)
+    public function replace(string $table = null, $keyValue = null)
     {
         return $this->_query_insert_replace($table, $keyValue, 'REPLACE');
     }
 
-    public function insert(string $table = null, $keyValue)
+    public function insert(string $table = null, $keyValue = null)
     {
         return $this->_query_insert_replace($table, $keyValue, 'INSERT');
     }
@@ -752,7 +752,7 @@ class ezQuery implements ezQueryInterface
     // get_results call template
     public function get_results(string $query = null, $output = \OBJECT, bool $use_prepare = false)
     {
-        return array();
+        return [];
     }
 
     //
@@ -777,20 +777,20 @@ class ezQuery implements ezQueryInterface
         if (\is_numeric($str))
             return $str;
 
-        $nonDisplayable = array(
+        $nonDisplayable = [
             '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
             '/%1[0-9a-f]/',             // url encoded 16-31
             '/[\x00-\x08]/',            // 00-08
             '/\x0b/',                   // 11
             '/\x0c/',                   // 12
             '/[\x0e-\x1f]/'             // 14-31
-        );
+        ];
 
         foreach ($nonDisplayable as $regex)
             $str = \preg_replace($regex, '', $str);
 
-        $search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
-        $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+        $search = ["\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a"];
+        $replace = ["\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z"];
 
         return \str_replace($search, $replace, $str);
     }

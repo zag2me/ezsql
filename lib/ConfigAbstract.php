@@ -133,7 +133,7 @@ abstract class ConfigAbstract
      * The PDO array for connection options, MySQL connection charset, for example
      * @var array
      */
-    private $options = array();
+    private $options = [];
 
     /**
      * Check PDO for whether it is a file based database connection, for example to a SQLite

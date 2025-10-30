@@ -76,7 +76,7 @@ class ez_pdo extends ezsqlModel implements DatabaseInterface
         $dsn = '',
         $user = '',
         $password = '',
-        $options = array(),
+        $options = [],
         $isFile = false
     ) {
         $this->_connected = false;
@@ -90,14 +90,14 @@ class ez_pdo extends ezsqlModel implements DatabaseInterface
             if (\strpos($vendor, \PGSQL) !== false) {
                 $this->secureOptions = 'sslmode=require;sslcert=' . $path . $cert . ';sslkey=' . $path . $key . ';sslrootcert=' . $path . $ca . ';';
             } elseif (\strpos($vendor, 'mysql') !== false) {
-                $this->secureOptions = array(
+                $this->secureOptions = [
                     \PDO::MYSQL_ATTR_SSL_KEY => $path . $key,
                     \PDO::MYSQL_ATTR_SSL_CERT => $path . $cert,
                     \PDO::MYSQL_ATTR_SSL_CA => $path . $ca,
                     \PDO::MYSQL_ATTR_SSL_CAPATH => $path,
                     \PDO::MYSQL_ATTR_SSL_CIPHER => 'DHE-RSA-AES256-SHA',
                     \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-                );
+                ];
             } elseif (\strpos($vendor, \MSSQL) !== false) {
                 $this->secureOptions = ';Encrypt=true;TrustServerCertificate=true';
             }
@@ -153,7 +153,7 @@ class ez_pdo extends ezsqlModel implements DatabaseInterface
         $dsn = '',
         $user = '',
         $password = '',
-        $options = array(),
+        $options = [],
         $isFileBased = false
     ) {
         return $this->connect($dsn, $user, $password, $options, $isFileBased);

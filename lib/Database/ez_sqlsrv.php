@@ -20,11 +20,11 @@ class ez_sqlsrv extends ezsqlModel implements DatabaseInterface
     /**
      * ezSQL non duplicating data type id's; converting type ids to str
      */
-    private $ezsql_sqlsrv_type2str_non_dup = array(
+    private $ezsql_sqlsrv_type2str_non_dup = [
         -5 => 'bigint', -7 => 'bit', 1 => 'char', 91 => 'date', -155 => 'datetimeoffset', 6 => 'float', -4 => 'image', 4 => 'int', -8 => 'nchar',
         -10 => 'ntext', 2 => 'numeric', -9 => 'nvarchar', 7 => 'real', 5 => 'smallint', -1 => 'text', -154 => 'time', -6 => 'tinyint', -151 => 'udt',
         -11 => 'uniqueidentifier', -3 => 'varbinary', 12 => 'varchar', -152 => 'xml',
-    );
+    ];
 
     /**
      * Database connection handle
@@ -93,21 +93,21 @@ class ez_sqlsrv extends ezsqlModel implements DatabaseInterface
 
         // Blank user assumes Windows Authentication
         if ($this->isSecure) {
-            $connectionOptions = array(
+            $connectionOptions = [
                 "UID" => $user,
                 "PWD" => $password,
                 "Database" => $name,
                 "ReturnDatesAsStrings" => true,
                 "Encrypt" => true,
                 "TrustServerCertificate" => true,
-            );
+            ];
         } else {
-            $connectionOptions = array(
+            $connectionOptions = [
                 "UID" => $user,
                 "PWD" => $password,
                 "Database" => $name,
                 "ReturnDatesAsStrings" => true,
-            );
+            ];
         }
 
         // Try to establish the server database handle
@@ -349,20 +349,20 @@ class ez_sqlsrv extends ezsqlModel implements DatabaseInterface
 
         $limit_str = "/LIMIT[^\w]{1,}([0-9]{1,})([\,]{0,})([0-9]{0,})/i";
 
-        $patterns = array(
+        $patterns = [
             //replace From UnixTime command in MS-Sql, doesn't work
             0 => "/FROM_UNIXTIME\(([^\/]{0,})\)/i",
             //replace unix_timestamp function. Doesn't work in MS-Sql
             1 => "/unix_timestamp\(([^\/]{0,})\)/i",
             //replace LIMIT keyword. Works only on MySql not on MS-Sql with TOP keyword
             2 => $limit_str,
-        );
+        ];
 
-        $replacements = array(
+        $replacements = [
             0 => "getdate()",
             1 => "\\1",
             2 => "",
-        );
+        ];
 
         $regs = null;
         \preg_match($limit_str, $query, $regs);

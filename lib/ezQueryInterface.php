@@ -435,7 +435,7 @@ interface ezQueryInterface
      * @param $keyValue - table fields, assoc array with key = value (doesn't need escaped)
      * @return mixed bool/id of inserted record, or false for error
      */
-    public function insert(string $table = null, $keyValue);
+    public function insert(string $table = null, $keyValue = null);
 
     /**
      * Preforms a `insert` method call on a already preset `table name`, and optional `prefix`
@@ -531,7 +531,7 @@ interface ezQueryInterface
      *```
      * @return mixed bool/results - false for error
      */
-    public function update(string $table = null, $keyValue, ...$whereConditions);
+    public function update(string $table = null, $keyValue = null, ...$whereConditions);
 
     /**
      * Preforms a `update` method call on a already preset `table name`, and optional `prefix`
@@ -626,7 +626,7 @@ interface ezQueryInterface
      * @param $keyValue - table fields, assoc array with key = value (doesn't need escaped)
      * @return mixed bool/id of replaced record, or false for error
      */
-    public function replace(string $table = null, $keyValue);
+    public function replace(string $table = null, $keyValue = null);
 
     /**
      * Preforms a `replace` method call on a already preset `table name`, and optional `prefix`

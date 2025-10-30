@@ -39,13 +39,13 @@ class ezResultset implements \Iterator
      * Contains the possible return types
      * @var array
      */
-    private $_checkTypes = array('array', 'object', 'row', 'json');
+    private $_checkTypes = ['array', 'object', 'row', 'json'];
 
     /**
      * The resultset
      * @var array
      */
-    private $_resultset = array();
+    private $_resultset = [];
 
     /**
      * Initializes the record object

@@ -246,7 +246,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function eq($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \EQ, $y, $and, ...$args);
         return $expression;
     }
@@ -272,7 +272,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function neq($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \NEQ, $y, $and, ...$args);
         return $expression;
     }
@@ -289,7 +289,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function ne($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \NE, $y, $and, ...$args);
         return $expression;
     }
@@ -306,7 +306,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function lt($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \LT, $y, $and, ...$args);
         return $expression;
     }
@@ -323,7 +323,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function lte($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \LTE, $y, $and, ...$args);
         return $expression;
     }
@@ -340,7 +340,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function gt($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \GT, $y, $and, ...$args);
         return $expression;
     }
@@ -357,7 +357,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function gte($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \GTE, $y, $and, ...$args);
         return $expression;
     }
@@ -374,7 +374,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function isNull($x, $y = 'null', $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_isNULL, $y, $and, ...$args);
         return $expression;
     }
@@ -391,7 +391,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function isNotNull($x, $y = 'null', $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_notNULL, $y, $and, ...$args);
         return $expression;
     }
@@ -408,7 +408,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function like($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_LIKE, $y, $and, ...$args);
         return $expression;
     }
@@ -425,7 +425,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function notLike($x, $y, $and = null, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_notLIKE, $y, $and, ...$args);
         return $expression;
     }
@@ -442,7 +442,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function in($x, $y, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_IN, $y, ...$args);
         return $expression;
     }
@@ -459,7 +459,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function notIn($x, $y, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_notIN, $y, ...$args);
         return $expression;
     }
@@ -476,7 +476,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function between($x, $y, $y2, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_BETWEEN, $y, $y2, \_AND, ...$args);
         return $expression;
     }
@@ -493,7 +493,7 @@ if (!\function_exists('ezFunctions')) {
      */
     function notBetween($x, $y, $y2, ...$args): array
     {
-        $expression = array();
+        $expression = [];
         \array_push($expression, $x, \_notBETWEEN, $y, $y2, \_AND, ...$args);
         return $expression;
     }
@@ -542,12 +542,12 @@ if (!\function_exists('ezFunctions')) {
      */
     function clean_string(string $string): string
     {
-        $patterns = array( // strip out:
+        $patterns = [ // strip out:
             '@<script[^>]*?>.*?</script>@si', // Strip out javascript
             '@<[\/\!]*?[^<>]*?>@si',          // HTML tags
             '@<style[^>]*?>.*?</style>@siU',  // Strip style tags properly
             '@<![\s\S]*?--[ \t\n\r]*>@'       // Strip multi-line comments
-        );
+        ];
 
         $string = \preg_replace($patterns, '', $string);
         $string = \trim($string);
@@ -632,9 +632,9 @@ if (!\function_exists('ezFunctions')) {
             $ssl_path = \getcwd();
             $ssl_path = \preg_replace('/\\\/', \_DS, $ssl_path) . \_DS;
         } else
-            $ssl_path = $ssl_path . \_DS;
+            $ssl_path .= \_DS;
 
-        $opensslConfig = array("config" => $ssl_path . 'openssl.cnf');
+        $opensslConfig = ["config" => $ssl_path . 'openssl.cnf'];
 
         // Generate a new private (and public) key pair
         $privatekey = \openssl_pkey_new($opensslConfig);

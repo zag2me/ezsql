@@ -216,7 +216,7 @@ class ez_sqlite3 extends ezsqlModel implements DatabaseInterface
         } else {
             // Take note of column info
             $i = 0;
-            $this->colInfo = array();
+            $this->colInfo = [];
             while ($i < @$this->result->numColumns()) {
                 $this->colInfo[$i] = new \stdClass;
                 $this->colInfo[$i]->name = $this->result->columnName($i);
